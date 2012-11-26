@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'bundler/setup'
 require 'librato/metrics'
 require 'logger'
@@ -21,8 +22,9 @@ $log.level = Logger::DEBUG
 
 $log.info("Starting Napolean")
 
-$log.info("Loading configuration from config.rb")
-load("config.rb")
+config_path = ARGV[0] || "/etc/napolean.conf"
+$log.info("Loading configuration from #{config_path}")
+load(config_path)
 
 $log.info("Configuring Librato Metrics for #{$librato_username}")
 Librato::Metrics.authenticate $librato_username, $librato_key
@@ -30,7 +32,7 @@ $queue = Librato::Metrics::Queue.new
 
 $start_time = Time.now
 
-Dir.glob("collectors/*.rb").each do |collector|
+Dir.glob(File.expand_path("../../lib/collectors/*.rb", __FILE__)).each do |collector|
   name = collector.gsub(/^collectors\/(.*)\.rb$/, "\\1")
 
   $log.info("Collecting metric: #{name}")
@@ -43,10 +45,5 @@ queue_gauge("system.napolean.run_time", run_time)
 
 $log.info("Flushing queue")
 unless $do_not_submit
-  begin
-    $queue.submit
-  rescue Librato::Metrics::ClientError => e
-    require 'irb'
-    IRB.start
-  end
+  $queue.submit
 end
