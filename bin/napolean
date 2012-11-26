@@ -33,7 +33,7 @@ $queue = Librato::Metrics::Queue.new
 $start_time = Time.now
 
 # Report the time as always being at 0 seconds so values line up in Librato.
-$report_time = Time.new($start_time.year, $start_time.month, $start_time.day, $start_time.hour, $start_time.min, 0)
+$report_time = Time.gm($start_time.year, $start_time.month, $start_time.day, $start_time.hour, $start_time.min, 0)
 
 [ Array($collector_paths), File.expand_path("../../lib/collectors", __FILE__) ].flatten.each do |path|
   $log.info("Loading collectors from #{path}")
