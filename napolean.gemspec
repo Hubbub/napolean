@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name = "napolean"
-  gem.version = "0.9"
+  gem.version = "1.0"
   gem.authors = [ "Jon Wood" ]
   gem.email = [ "jon@hubbub.co.uk" ]
   gem.description = %q{A tool to collect and submit system metrics to Librato Metrics}
