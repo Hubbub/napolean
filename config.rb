@@ -10,3 +10,6 @@ $source = `hostname --fqdn`.strip
 
 # Turn this on for testing so that data doesn't get submitted to Librato.
 $do_not_submit = true
+
+# Any Ruby files found in these paths will be loaded and used as collectors.
+$collector_paths = [ "/usr/libexec/napolean/" ]

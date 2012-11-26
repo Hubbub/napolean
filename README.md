@@ -24,6 +24,9 @@ look like this:
     # Turn this on for testing so that data doesn't get submitted to Librato.
     $do_not_submit = false
 
+    # Any Ruby files found in these paths will be loaded and used as collectors.
+    # $collector_paths = [ "/usr/libexec/napolean/" ]
+
 ## Running Napolean
 
 It goes a little something like this: `napolean [/path/to/napolean.conf]`. If you want to use the default

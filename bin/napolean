@@ -32,11 +32,14 @@ $queue = Librato::Metrics::Queue.new
 
 $start_time = Time.now
 
-Dir.glob(File.expand_path("../../lib/collectors/*.rb", __FILE__)).each do |collector|
-  name = collector.gsub(/^collectors\/(.*)\.rb$/, "\\1")
+[ Array($collector_paths), File.expand_path("../../lib/collectors", __FILE__) ].flatten.each do |path|
+  $log.info("Loading collectors from #{path}")
+  Dir.glob("#{path}/*.rb").each do |collector|
+    name = collector.gsub(/^collectors\/(.*)\.rb$/, "\\1")
 
-  $log.info("Collecting metric: #{name}")
-  load(collector)
+    $log.info("Collecting metric: #{name}")
+    load(collector)
+  end
 end
 
 run_time = Time.now - $start_time
